@@ -380,28 +380,39 @@ export default function MediaLibraryView({
               )}
 
               {/* Per-Video Intelligence Lenses */}
-              <div className="pt-2 border-t border-slate-800/80">
-                <div className="flex items-center justify-between mb-1.5">
-                  <span className="text-[10px] font-semibold uppercase tracking-wider text-slate-400 flex items-center space-x-1">
-                    <Brain className="w-3 h-3 text-indigo-400" />
-                    <span>Active Intelligence Lenses</span>
+              <div className="pt-3 mt-1 border-t border-slate-800/80">
+                <div className="flex items-center justify-between mb-2.5">
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 flex items-center space-x-1.5">
+                    <Tag className="w-3.5 h-3.5 text-indigo-400" />
+                    <span>Intelligence Lenses</span>
                   </span>
+                  <span className="text-[10px] text-slate-500">Tap to toggle</span>
                 </div>
-                <div className="flex flex-wrap gap-1.5">
+                <div className="flex flex-wrap gap-2">
                   {INTELLIGENCE_LENSES.map((lens) => {
                     const active = lenses.includes(lens.id);
                     return (
                       <button
                         key={lens.id}
                         onClick={() => toggleVideoLens(v.video_id, lens.id, lenses)}
-                        className={`px-2 py-0.5 rounded-lg text-[10px] font-medium border transition-all ${
+                        style={active ? {
+                          backgroundColor: `${lens.color}15`,
+                          borderColor: `${lens.color}40`,
+                          color: lens.color,
+                          boxShadow: `0 0 10px ${lens.color}10`
+                        } : {}}
+                        className={`group flex items-center space-x-1.5 px-3 py-1.5 rounded-xl text-[11px] font-bold border transition-all active:scale-95 ${
                           active 
-                            ? "bg-slate-800 border-indigo-500 text-white" 
-                            : "bg-slate-900 border-slate-800 text-slate-500 hover:text-slate-300"
+                            ? "hover:opacity-80" 
+                            : "bg-slate-900 border-slate-800 text-slate-400 hover:bg-slate-800 hover:text-slate-200"
                         }`}
                       >
-                        <span style={{ color: active ? lens.color : undefined }}>● </span>
-                        {lens.name}
+                        {active ? (
+                          <CheckCircle2 className="w-3.5 h-3.5" style={{ color: lens.color }} />
+                        ) : (
+                          <div style={{ backgroundColor: lens.color, opacity: 0.5 }} className="group-hover:opacity-80 transition-opacity w-1.5 h-1.5 rounded-full" />
+                        )}
+                        <span>{lens.name}</span>
                       </button>
                     );
                   })}
